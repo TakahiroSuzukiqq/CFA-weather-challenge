@@ -1,4 +1,7 @@
 # Day (0/7)
+
+#hi question
+
 # Hi, what was the temperature on Monday ?
 class Day
   def initialize(day)
