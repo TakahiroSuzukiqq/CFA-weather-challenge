@@ -1,60 +1,67 @@
-# Day (0/7)
-
-# Hi, what was the temperature on Monday ?
-class Day
-  def initialize(day)
-    @day = day
+#####################################################
+require "terminal-table"
+require "paint"
+#####################################################
+class Question
+  def initialize(question)
+    @question = question
+    @days = ["Monday", "Tuesday", "Wednesday", "Tursday", "Friday", "Saturday", "Sunday"]
   end
+attr_accessor :question
 
-  attr_accessor :day
-
-  @questions.each do |question|
-    system("clear")
-
-
+def insert_table(days, temp_c, temp_f)
+  @days = days.join("\n")
+  rows = []
+  rows << [@days, temp_c, temp_f]
+  table = Terminal::Table.new title: "Temperature", headings: %w(Days Celsius Fahrenheit),rows: rows
+  puts table
 end
 
-class Progress
-  def initialize (count)
-    @count = count
-  end
+ def ask(hi_progress_bar)
+    @answers = []
+    temp_c = []
+    temp_f = []
+   @question.each do |question|
+     system("clear")
+   puts "#{hi_progress_bar.title}: (#{hi_progress_bar.current_step}/#{@question.length})"
+   puts question
+   answer = gets.chomp.to_i
+   @answers << answer
 
-  attr_accessor :count
+   hi_progress_bar.current_step += 1
+                  end
 
-  def addone (count)
-    @count = @count + 1
+  @answers.each do|answer|
+    if answer <= 28
+     temp_c << Paint[answer, :blue]
+     temp_f << (Paint[answer * 9 / 5 + 32, :blue])
+    elsif answer >=28
+     temp_c << Paint[answer, :red]
+     temp_f << (Paint[answer * 9 / 5 +32, :red])
+    end
+               end
+    @temp_c = temp_c.join("\n")
+    @temp_f = temp_f.join("\n")
+    insert_table(@days, @temp_c, @temp_f)
   end
 end
+#####################################################
+class ProgressBar
+  def initialize(title)
+    @current_step = 1
+    @title = title
+  end
 
-progress = Progress.new(1)
-
-
-puts "Current count = #{progress.count}"
-
-
-question_list = [
-  "Hi, what was the temperature on #{day}?",
-]
-
-my_questioner = day.new(question_list)
-progress_bar = ProgressBar.new("Question Progress")
-
-my_questioner.ask(progress_bar)
-#############################################################
-#
-# require 'paint'
-# require 'terminal-table'
-#
-# puts "non-painted output"
-# puts Paint['Ruby', :red]
-#
-#
-# rows = []
-# rows << ['One', 1]
-# rows << ['One', 2]
-# rows << ['Three', 3]
-# table = Terminal::Table.new :rows => rows
-#
-#
-# puts table
+  attr_accessor :current_step, :title
 end
+#####################################################
+days = ["Monday", "Tuesday", "Wednesday", "Tursday", "Friday", "Saturday", "Sunday"]
+@questions = []
+days.each do |day|
+  @questions << "Hi, What was the temperature on #{day}?"
+           end
+#####################################################
+hi_question = Question.new(@questions)
+hi_progress_bar = ProgressBar.new("Question Progress")
+hi_question.ask(hi_progress_bar)
+#####################################################
