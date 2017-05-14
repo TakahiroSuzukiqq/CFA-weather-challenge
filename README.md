@@ -7,7 +7,7 @@
   *If you type temperature over 30℃, the temperature will be described with red.  
    If you type under 30℃, the temperature will be described with blue.  
 
-# Function & how to play  
+# Challenges
   *Display of progress bar  
   *Question with one line, instead of writing 7 times.  
 
